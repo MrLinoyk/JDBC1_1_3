@@ -53,6 +53,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setByte(3, user.getAge());
             preparedStatement.executeUpdate();
+            System.out.println("User " + user.getName() + " is added");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -72,35 +73,22 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public List<User> getAllUsers() {
-        /**       Try with printf (working)          */
-//        try (ResultSet resultSet = util.getStatement().executeQuery("SELECT * FROM users")) {
-//            while (resultSet.next()) {
-//                long id  = resultSet.getLong(1);
-//                String name = resultSet.getString(2);
-//                String lastName = resultSet.getString(3);
-//                byte age = resultSet.getByte(4);
-//                System.out.printf("%d. %s %s - %d \n", id, name, lastName, age);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-
-
-        /**       Try with List<>       */
         List <User> usersList = new ArrayList<>();
-        try (ResultSet resultSet = util.getConnection().createStatement().executeQuery("SELECT * FROM users")) {
+        try (Statement statement = util.getConnection().createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT id, name, lastName, age from users");
             while (resultSet.next()) {
-                User user = new User(resultSet.getString("name"),
-                        resultSet.getString("lastName"),
-                        resultSet.getByte("age"));
+                User user = new User();
                 user.setId(resultSet.getLong("id"));
+                user.setName(resultSet.getString("name"));
+                user.setLastName(resultSet.getString("lastName"));
+                user.setAge(resultSet.getByte("age"));
                 usersList.add(user);
+                System.out.println(user);
             }
-
         } catch (SQLException e) {
-            System.out.println("Connection failed...");
+            e.printStackTrace();
         }
+
         return usersList;
     }
 
