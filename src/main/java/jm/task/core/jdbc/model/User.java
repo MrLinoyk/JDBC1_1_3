@@ -63,11 +63,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                '}';
+        return String.format("User [id = %d, name = '%s', lastname = '%s', age = %d]", id, name, lastName, age);
     }
 }

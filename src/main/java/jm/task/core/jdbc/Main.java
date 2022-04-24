@@ -11,11 +11,11 @@ public class Main {
 //        UserDao userDao1 = new UserDaoJDBCImpl();
 
 //        userDao.createUsersTable();
-//
-        userDao.saveUser("Dmitriy", "Vtagin", (byte) 20);
-        userDao.saveUser("Pavel", "Luchnik", (byte) 25);
-        userDao.saveUser("Ivan", "Ivanov", (byte) 31);
-        userDao.saveUser("Petr", "Sidorov", (byte) 38);
+
+//        userDao.saveUser("Dmitriy", "Vtagin", (byte) 20);
+//        userDao.saveUser("Pavel", "Luchnik", (byte) 25);
+//        userDao.saveUser("Ivan", "Ivanov", (byte) 31);
+//        userDao.saveUser("Petr", "Sidorov", (byte) 38);
 //
 //        userDao.removeUserById(2);
 //        userDao1.getAllUsers();
