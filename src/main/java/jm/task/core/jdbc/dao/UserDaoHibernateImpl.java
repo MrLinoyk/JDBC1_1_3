@@ -3,14 +3,15 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 //    Session session = Util.getSessionFactory().openSession();
-    Session session = null;
-    String sql;
+    private Session session = null;
+    private SessionFactory sessionFactory = Util.getSessionFactory();
 
     public UserDaoHibernateImpl() {
 
@@ -18,9 +19,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        session = Util.getSessionFactory().openSession();
+        session = sessionFactory.openSession();
         session.beginTransaction();
-        sql = "CREATE TABLE IF NOT EXISTS users " +
+        String sql = "CREATE TABLE IF NOT EXISTS users " +
                 "(id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "name VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL, " +
                 "age TINYINT NOT NULL)";
@@ -35,7 +36,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void dropUsersTable() {
         session = Util.getSessionFactory().openSession();
         session.beginTransaction();
-        sql = "DROP TABLE IF EXISTS users";
+        String sql = "DROP TABLE IF EXISTS users";
         Query query = session.createSQLQuery(sql);
         query.executeUpdate();
         session.getTransaction().commit();
@@ -61,7 +62,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void removeUserById(long id) {
         session = Util.getSessionFactory().openSession();
         session.beginTransaction();
-        sql = "DELETE FROM users WHERE id = " + id;
+        String sql = "DELETE FROM users WHERE id = " + id;
         Query query = session.createSQLQuery(sql);
         query.executeUpdate();
         session.getTransaction().commit();
@@ -74,7 +75,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public List<User> getAllUsers() {
         session = Util.getSessionFactory().openSession();
         session.beginTransaction();
-        sql = "SELECT a from User a";
+        String sql = "SELECT a from User a";
         List <User> userList = session.createQuery(sql, User.class).getResultList();
         session.getTransaction().commit();
         session.close();
@@ -86,8 +87,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         session = Util.getSessionFactory().openSession();
         session.beginTransaction();
-        sql = "DELETE FROM User";
-        session.createQuery(sql).executeUpdate();
+        session.createSQLQuery("TRUNCATE TABLE users").executeUpdate();
         session.getTransaction().commit();
         session.close();
     }

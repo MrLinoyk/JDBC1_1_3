@@ -15,12 +15,21 @@ import java.util.Properties;
 
 
 public class Util {
+    public static Util instance;
+    private Util () {
+
+    }
+    public static Util getInstance() {
+        if (instance == null) {
+            instance = new Util();
+        }
+        return instance;
+    }
     private static final String PASSWORD = "Demasik_2006";
     private static final String USER = "Admin";
-    private static final String URL = "jdbc:mysql://localhost:3306/ppjdbc";
+    private static final String URL = "jdbc:mysql://localhost:3306/jdbcpp";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private Connection connection;
-    private Statement statement;
     private static SessionFactory sessionFactory;
 
     public Connection getConnection() {
@@ -30,15 +39,6 @@ public class Util {
             e.printStackTrace();
         }
         return connection;
-    }
-
-    public Statement getStatement() {
-        try {
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return statement;
     }
 
     public static SessionFactory getSessionFactory() {
