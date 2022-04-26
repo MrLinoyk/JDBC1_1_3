@@ -41,7 +41,7 @@ public class Util {
         return connection;
     }
 
-    public static SessionFactory getSessionFactory() {
+    public SessionFactory getSessionFactory() {
         try {
             Configuration config = new Configuration();
             Properties properties = new Properties();
